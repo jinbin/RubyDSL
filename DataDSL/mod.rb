@@ -8,12 +8,14 @@ module Mod1
 
 
 	def initialize  
+		@base=Array.new
 		@xml=Array.new
 		@xml_all=Array.new
 	end
 
 	def base filename="#{File.expand_path(File.dirname('__FILE__'),'inXml')}"
-		@xml=IO.read(filename).split("\x01\n")
+		@base=IO.read(filename).split("\x01\n")
+		@xml=@base.dup
 	end
 
 	def output filename="outXml"
@@ -21,7 +23,7 @@ module Mod1
 			File.open(filename,"w") do |f|
 				@xml_all.each do |xml|
 			  		f << "<doc>\x01\n"
-			  		@xml.each do |line|
+			  		xml.each do |line|
 			    			f << line << "\x01\n"
 			  		end
 			  		f << "</doc>\x01\n"
@@ -51,7 +53,7 @@ module Mod1
 			@xml << "#{m}=#{args[0]}"
 			puts "#{m} is a new field, please check."
 		end
-		@xml_all << @xml
+		#@xml_all << @xml
 	end
 end
 

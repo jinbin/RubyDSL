@@ -10,7 +10,12 @@ class MyDSL
 		if name == :doc
 			extend Mod1
 		end
+		@xml.clear
+		@xml=@base.dup
 		block.call
+		@xml_all << @xml.dup
+		puts @xml_all.inspect
+
 	end
 
 	def self.load filename
