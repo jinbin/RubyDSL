@@ -1,0 +1,93 @@
+#!/bin/env ruby
+
+class String
+	def add_s *para
+		if para.empty?
+			return
+		end
+		self[0..-1]=self[0..-1].chomp("\n")
+		para.each do |item|
+			self[0..-1] = self[0..-1]+"&"+item
+		end
+		self << "\n"
+	end
+end
+
+module A
+	def initialize
+		@query=Array.new
+		@sp="&"
+	end
+
+	def base dir="./inQuery"
+		File.foreach(dir) do |line|
+			@query << line
+		end
+	end	
+
+	def output dir="./outQuery"
+		at_exit do 
+			File.open(dir,"w") do |f|
+				@query.each do |line|
+					f << line
+				end
+			end
+		end
+	end
+
+	def add *para
+		if para.empty?
+			return
+		end
+		para.each do |item|
+			@query.collect! do |line|
+				line.chomp("\n")+@sp+item+"\n"
+			end
+		end
+	end
+
+	def del *p
+		if p.empty?
+			return
+		end
+		p.each do |item|
+			@query.collect! do |line|
+				line.gsub(/&#{item}=.*?&/,'&')
+			end
+		end
+	end
+
+	def show
+		@query.each do |line|
+			puts line.inspect
+		end
+	end
+end
+
+class QueryDSL
+	include A		
+
+	def self.load filename
+		dsl=new
+		dsl.instance_eval(File.read(filename),filename)
+		dsl
+	end
+end
+
+
+while !ARGV.empty?
+	file=ARGV.shift
+	if !File.file? file
+		next
+	end
+	begin
+	mydsl=QueryDSL.load(file)
+	rescue SyntaxError => e
+		puts "\nSyntaxError in #{file}.Please check it!"	
+		exit
+	end
+end
+
+
+
+

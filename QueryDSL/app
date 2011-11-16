@@ -1,0 +1,9 @@
+
+base "./inQuery"
+output "./outQuery"
+@query.each_with_index do |v,i|
+	if i % 2 == 0
+		v.add_s "jinbin"
+	end
+end
+
