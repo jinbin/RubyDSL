@@ -13,11 +13,6 @@ class MyDSL
 		block.call
 	end
 
-	def task name=:task2,&block
-		extend Mod2
-		block.call
-	end
-
 	def self.load filename
 		dsl=new
 		dsl.instance_eval(File.read(filename),filename)
