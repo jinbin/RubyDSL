@@ -5,17 +5,18 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 require 'mod'
 
 class MyDSL
-	include Mod1
-	def xml name=:doc,&block
-		if name == :doc
-			extend Mod1
+	def initialize
+		@obj
+	end
+	def task name=:xml,&block
+		if name == :xml
+			@obj=Xml.new
 		end
-		@xml.clear
-		@xml=@base.dup
-		block.call
-		@xml_all << @xml.dup
-		puts @xml_all.inspect
-
+		@obj.xml.clear
+		@obj.xml=@obj.base
+		@obj.instance_eval(&block)
+		@obj.xml_all << @obj.xml
+		@obj.output
 	end
 
 	def self.load filename

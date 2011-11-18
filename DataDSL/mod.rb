@@ -1,11 +1,13 @@
-module Mod1 
-
-	preserved=["__id__","object_id","__send__","respond_to?"]
+class Xml 
+	preserved=["__id__","object_id","__send__","respond_to?","instance_eval"]
 	instance_methods.each do |m|
-		next if preserved.include?(m)
+		next if preserved.include?(m.to_s)
 		undef_method m
 	end
 
+	attr_accessor :base,:xml,:xml_all
+
+	@@num=0
 
 	def initialize  
 		@base=Array.new
@@ -19,17 +21,21 @@ module Mod1
 	end
 
 	def output filename="outXml"
-		at_exit do 
-			File.open(filename,"w") do |f|
-				@xml_all.each do |xml|
-			  		f << "<doc>\x01\n"
-			  		xml.each do |line|
-			    			f << line << "\x01\n"
-			  		end
-			  		f << "</doc>\x01\n"
-			  	end
-			end
+		if @@num == 0
+			File.open(filename,"w")
+			@@num = @@num + 1
 		end
+		#at_exit do 
+		File.open(filename,"a") do |f|
+			@xml_all.each do |xml|
+		  		f << "<doc>\x01\n"
+		  		xml.each do |line|
+		    			f << line << "\x01\n"
+		  		end
+		  		f << "</doc>\x01\n"
+		  	end
+		end
+		#end
 	end
 
 	def del field
@@ -57,7 +63,7 @@ module Mod1
 	end
 end
 
-module Mod2
+class Mod2
 	def base 
 		puts "Unfinished"
 	end

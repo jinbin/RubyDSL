@@ -2,9 +2,6 @@
 
 fields=["id","company_id","category_id","subject","keywords","gmt_modified","have_image","service_type","summary","description","attr_desc","is_win","owner_member_id","rank_score","is_escrow","gmt_paid_join","certified_type_id","repeat_spam_score"]
 
-base
-output
-
 values=Array.new
 File.readlines("/home/bin.jinb/Isearch_data/Isearch_a+body+kit_cat12").each do |offer|
 	offer.split("\x05").each_with_index do |value,i|
@@ -12,7 +9,9 @@ File.readlines("/home/bin.jinb/Isearch_data/Isearch_a+body+kit_cat12").each do |
 			values[i]=value
 		end
 	end
-	xml :doc do
+	task :xml do
+		base
+		output
 		id "#{values[0]}"
 		company_id "#{values[1]}"
 		category_id "#{values[2]}"
