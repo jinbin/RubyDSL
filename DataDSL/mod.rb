@@ -63,12 +63,21 @@ class Xml
 	end
 end
 
-class Mod2
-	def base 
+class Query
+	def initialize
+		@query=Array.new
+		@sp="&"
+	end
+	def base filename="#{File.expand_path(File.dirname('__'))}"
 		puts "Unfinished"
 	end
 	
-	def output
+	def output filename=
 		puts "Unfinished" 
 	end
 end
+
+
+
+
+
