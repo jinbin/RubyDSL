@@ -1,8 +1,5 @@
-
-base
-output
-
-xml :doc do
-  id "1000" 
-  description "what"
+task : do
+  base
+  output
+  id "1"
 end

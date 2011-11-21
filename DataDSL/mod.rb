@@ -7,7 +7,7 @@ class Xml
 
 	attr_accessor :base,:xml,:xml_all
 
-	@@num=0
+	@@num=Array.new
 
 	def initialize  
 		@base=Array.new
@@ -21,9 +21,9 @@ class Xml
 	end
 
 	def output filename="outXml"
-		if @@num == 0
+		if !@@num.include? filename
 			File.open(filename,"w")
-			@@num = @@num + 1
+			@@num << filename
 		end
 		#at_exit do 
 		File.open(filename,"a") do |f|
@@ -59,7 +59,6 @@ class Xml
 			@xml << "#{m}=#{args[0]}"
 			puts "#{m} is a new field, please check."
 		end
-		#@xml_all << @xml
 	end
 end
 
@@ -75,6 +74,16 @@ class Query
 	end
 	
 	def output filename="outQuery"
+		if !@@list.include? filename
+			@@list << filename
+		end
+		File.open(filename,"a") do |f|
+			@query_all.each do |query|
+				query.each do |q|
+					f << q << "\n"
+				end
+			end
+		end
 	end
 end
 
