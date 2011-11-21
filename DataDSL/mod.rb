@@ -5,19 +5,18 @@ class Xml
 		undef_method m
 	end
 
-	attr_accessor :base,:xml,:xml_all
+	attr_accessor :xml,:xml_all
 
 	@@num=Array.new
 
 	def initialize  
-		@base=Array.new
 		@xml=Array.new
 		@xml_all=Array.new
 	end
 
 	def base filename="#{File.expand_path(File.dirname('__FILE__'),'inXml')}"
-		@base=IO.read(filename).split("\x01\n")
-		@xml=@base.dup
+		base=IO.read(filename).split("\x01\n")
+		@xml=base.dup
 	end
 
 	def output filename="outXml"
@@ -63,18 +62,24 @@ class Xml
 end
 
 class Query
+
+	attr_accessor :query,:query_all
+
+	@@list=Array.new
+
 	def initialize
 		@query=Array.new
+		@query_all=Array.new
 		@sp="&"
 	end
 	def base filename="#{File.expand_path(File.dirname('__'),'inQuery')}"
-		File.foreach(dir) do |line|
-			@query << line
-		end
+		base=File.read(filename).split("\n")
+		@query=base.dup
 	end
 	
 	def output filename="outQuery"
 		if !@@list.include? filename
+			File.open(filename,"w")
 			@@list << filename
 		end
 		File.open(filename,"a") do |f|

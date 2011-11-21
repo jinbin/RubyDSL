@@ -11,7 +11,7 @@ File.readlines("/home/bin.jinb/Isearch_data/Isearch_a+body+kit_cat12").each do |
 	end
 	task :xml do
 		base
-		output
+		output "./1.txt"
 		id "#{values[0]}"
 		company_id "#{values[1]}"
 		category_id "#{values[2]}"
