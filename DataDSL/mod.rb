@@ -68,12 +68,13 @@ class Query
 		@query=Array.new
 		@sp="&"
 	end
-	def base filename="#{File.expand_path(File.dirname('__'))}"
-		puts "Unfinished"
+	def base filename="#{File.expand_path(File.dirname('__'),'inQuery')}"
+		File.foreach(dir) do |line|
+			@query << line
+		end
 	end
 	
-	def output filename=
-		puts "Unfinished" 
+	def output filename="outQuery"
 	end
 end
 
