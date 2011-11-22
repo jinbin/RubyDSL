@@ -5,13 +5,13 @@ class Xml
 		undef_method m
 	end
 
-	attr_accessor :xml,:xml_all
+	attr_accessor :xml
 
 	@@num=Array.new
 
 	def initialize  
 		@xml=Array.new
-		@xml_all=Array.new
+		@output
 	end
 
 	def base filename="#{File.expand_path(File.dirname('__FILE__'),'inXml')}"
@@ -20,19 +20,22 @@ class Xml
 	end
 
 	def output filename="outXml"
-		if !@@num.include? filename
-			File.open(filename,"w")
-			@@num << filename
+		@output=filename
+	end
+
+	def done
+		puts @output
+		if !@@num.include? @output
+			File.open(@output,"w")
+			@@num << @output
 		end
 		#at_exit do 
-		File.open(filename,"a") do |f|
-			@xml_all.each do |xml|
-		  		f << "<doc>\x01\n"
-		  		xml.each do |line|
-		    			f << line << "\x01\n"
-		  		end
-		  		f << "</doc>\x01\n"
+		File.open(@output,"a") do |f|
+			f << "<doc>\x01\n"""
+			@xml.each do |line|
+		    		f << line << "\x01\n"
 		  	end
+		  	f << "</doc>\x01\n"
 		end
 		#end
 	end
@@ -63,30 +66,44 @@ end
 
 class Query
 
-	attr_accessor :query,:query_all
+	attr_accessor :query
 
 	@@list=Array.new
 
 	def initialize
 		@query=Array.new
-		@query_all=Array.new
+		@output
 		@sp="&"
 	end
 	def base filename="#{File.expand_path(File.dirname('__'),'inQuery')}"
-		base=File.read(filename).split("\n")
-		@query=base.dup
+		@query=File.read(filename).split("\n")
+		#@query=base.dup
+	end
+
+	def add *para
+		if para.empty?
+			return
+		end
+		para.each do |item|
+			@query.collect! do |line|
+				puts line
+				line.chomp("\n")+@sp+item
+			end
+		end
+	end
+
+	def output filename="outQuery"
+		@output=filename
 	end
 	
-	def output filename="outQuery"
-		if !@@list.include? filename
-			File.open(filename,"w")
-			@@list << filename
+	def done
+		if !@@list.include? @output
+			File.open(@output,"w")
+			@@list << @output
 		end
-		File.open(filename,"a") do |f|
-			@query_all.each do |query|
-				query.each do |q|
-					f << q << "\n"
-				end
+		File.open(@output,"a") do |f|
+			@query.each do |q|
+				f << q << "\n"
 			end
 		end
 	end

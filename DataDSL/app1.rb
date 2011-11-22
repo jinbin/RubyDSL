@@ -32,3 +32,21 @@ File.readlines("/home/bin.jinb/Isearch_data/Isearch_a+body+kit_cat12").each do |
 		repeat_spam_score "#{values[17]}"
 	end
 end
+
+task :xml do
+	base
+	output "./2.txt"
+	jinbin "somehow"
+end
+
+task :xml do 
+	base
+	output "./1.txt"
+	binjin "jinbin"
+end
+
+
+
+
+
+

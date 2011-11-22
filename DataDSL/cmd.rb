@@ -11,16 +11,12 @@ class MyDSL
 	def task name=:xml,&block
 		if name == :xml
 			@obj=Xml.new
-			@obj.xml.clear
 			@obj.instance_eval(&block)
-			@obj.xml_all << @obj.xml
-			@obj.output
+			@obj.done
 		elsif name == :query
 			@obj=Query.new
-			@obj.query.clear
 			@obj.instance_eval(&block)	
-			@obj.query_all << @obj.query
-			@obj.output
+			@obj.done
 		end
 
 	end
