@@ -24,7 +24,6 @@ class Xml
 	end
 
 	def done
-		puts @output
 		if !@@num.include? @output
 			File.open(@output,"w")
 			@@num << @output
@@ -86,7 +85,6 @@ class Query
 		end
 		para.each do |item|
 			@query.collect! do |line|
-				puts line
 				line.chomp("\n")+@sp+item
 			end
 		end
