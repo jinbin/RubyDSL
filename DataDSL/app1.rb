@@ -2,8 +2,11 @@
 
 fields=["id","company_id","category_id","subject","keywords","gmt_modified","have_image","service_type","summary","description","attr_desc","is_win","owner_member_id","rank_score","is_escrow","gmt_paid_join","certified_type_id","repeat_spam_score"]
 
+files=["Isearch_a+body+kit_cat12345","Isearch_a+body+kit_main124","Isearch_a+body+kit_seo124","Isearch_fleece+fabric+wholesale_main567","Isearch_fleece+fabric+wholesale_seo567","Isearch_pill+box_main3","Isearch_pill+box_seo3","Isearch_wholesale+bike+clothing_main6","Isearch_wholesale+bike+clothing_seo6"]
+
 values=Array.new
-File.readlines("/home/admin/mlr4.0/ready_data/Isearch_a+body+kit_cat12345").each do |offer|
+files.each do |file|
+File.readlines("/home/admin/mlr4.0/ready_data/#{file}").each do |offer|
 	offer.split("\x05").each_with_index do |value,i|
 		if i < 18
 			values[i]=value
@@ -11,7 +14,7 @@ File.readlines("/home/admin/mlr4.0/ready_data/Isearch_a+body+kit_cat12345").each
 	end
 	task :xml do
 		base
-		output "./1.txt"
+		output "./Ready_XML/#{file}.xml"
 		id "#{values[0]}"
 		company_id "#{values[1]}"
 		category_id "#{values[2]}"
@@ -32,6 +35,6 @@ File.readlines("/home/admin/mlr4.0/ready_data/Isearch_a+body+kit_cat12345").each
 		repeat_spam_score "#{values[17]}"
 	end
 end
-
+end
 
 
