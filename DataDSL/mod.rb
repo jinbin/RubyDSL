@@ -15,7 +15,7 @@ class Xml
 	end
 
 	def base filename="#{File.expand_path(File.dirname('__FILE__'),'inXml')}"
-		base=IO.read(filename).split("\x01\n")
+		base=IO.read(filename).split("\x01\n").delete_if{|x| x=="<doc>" or x=="</doc>"}
 		@xml=base.dup
 	end
 
