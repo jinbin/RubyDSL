@@ -24,6 +24,10 @@ class Xml
 	end
 
 	def done
+		if @output.nil?
+		    puts "No specified output name, default name is output"
+		    @output="output"
+		end
 		if !@@num.include? @output
 			File.open(@output,"w")
 			@@num << @output
